@@ -1,0 +1,51 @@
+.bmi-card {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.09);
+}
+
+/* Buttons  */
+.button {
+    padding: 8px 25px;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+.success-btn {
+    background-color: green;
+    color: #fff;
+    font-weight: 600;
+    border-color: transparent;
+}
+
+.cancel-btn {
+    background-color: var(--error-500);
+    color: #fff;
+    font-weight: 600;
+    border-color: transparent;
+}
+
+.primary-btn {
+    background: linear-gradient(90deg, var(--PRIMARY1) 10%, var(--PRIMARY2) 100%);
+    border: none;
+    color: #fff;
+}
+
+.search-field {
+    display: flex;
+    display: -webkit-flex;
+    display: inline-flex;
+    align-items: center;
+    background-color: transparent;
+    align-items: center;
+    border: 1px solid var(--gray-400);
+    padding-right: 8px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.search-field input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 6px;
+    width: 100%;
+}
