@@ -2,7 +2,9 @@
   <div class="py-4" id="home">
     <div class="container">
       <section>
-        <div class="mb-4 d-flex header-area align-items-center justify-content-between">
+        <div
+          class="mb-4 d-flex header-area align-items-center justify-content-between"
+        >
           <h2>For a start, know your BMI</h2>
 
           <div>
@@ -64,21 +66,44 @@
         </div>
         <div class="w-50 p-5 rounded-lg bg-white bmi-card">
           <h3>Result</h3>
+          <vue-gauge
+            :refid="'type-unique-id'"
+            :options="{
+              needleValue: 25,
+              arcDelimiters: [37, 50, 60, 70],
+              // arcDelimiters: [32, 34, 37, 50, 60, 70, 80],
+              arcColors: ['#ffe400', '#008137', '#ffe400', '#d38888', '#bc2020', '#8a0101'],
+              arcLabels:['Underwieght', 'Normal', 'Overweight', 'Obesity'],
+              hasNeedle: true,
+              chartWidth: 300,
+              rangeLabel: ['0', '50'],
+            }"
+          ></vue-gauge>
+          <h3>BMI = 25%</h3>
         </div>
       </section>
       <section class="mt-3">
         <h3 class="text-center">Health Calculators</h3>
         <section class="d-flex main-content mt-4" style="gap: 30px">
-        <div class="w-100 p-5 rounded-lg bg-white bmi-card">
-          <h3>All</h3>
-        </div>
-        <div class="w-100 p-5 rounded-lg bg-white bmi-card">
-          <h3>Fitness</h3>
-        </div>
-        <div class="w-100 p-5 rounded-lg bg-white bmi-card">
-          <h3>Pregnancy</h3>
-        </div>
-      </section>
+          <div class="w-100 p-5 rounded-lg bg-white bmi-card">
+            <h3>All</h3>
+            <div>
+              <img src="@/assets/img/fitness.svg" alt="" />
+            </div>
+          </div>
+          <div class="w-100 p-5 rounded-lg bg-white bmi-card">
+            <h3>Fitness</h3>
+            <div>
+              <img src="@/assets/img/fitness-main.svg" alt="" />
+            </div>
+          </div>
+          <div class="w-100 p-5 rounded-lg bg-white bmi-card">
+            <h3>Pregnancy</h3>
+            <div>
+              <img src="@/assets/img/pregnancy.svg" alt="" />
+            </div>
+          </div>
+        </section>
       </section>
 
       <!-- <section class="w-100 p-5 rounded-lg bg-white bmi-card">
@@ -96,6 +121,8 @@ export default {
     return {
       age: 2,
       gender: "male",
+      height: "",
+      weight: ""
     };
   },
   methods: {
@@ -121,6 +148,7 @@ export default {
   /* color: #fff; */
   background: linear-gradient(90deg, var(--PRIMARY1) 10%, var(--PRIMARY2) 100%);
 }
+
 
 #home label {
   margin-bottom: 0;
@@ -148,7 +176,8 @@ export default {
   font-size: 50px;
 }
 
-#home h2, #home h3 {
+#home h2,
+#home h3 {
   font-family: var(--header-font);
   color: var(--PRIMARY1);
   font-weight: bold;
@@ -158,9 +187,21 @@ export default {
   font-family: var(--header-font);
   color: var(--PRIMARY1);
   font-weight: bold;
+  margin-bottom: 30px;
 }
 
-@media (max-width:990px) {
+#home .bmi-card {
+  text-align: center;
+}
+
+#home .bmi-card img {
+  width: 70%;
+  height: 150px;
+  object-fit: cover;
+  object-position: top;
+}
+
+@media (max-width: 990px) {
   .header-area {
     flex-direction: column;
     gap: 20px;
@@ -171,7 +212,8 @@ export default {
     width: 100%;
   }
 
-  .d-flex.main-content, .d-flex.main-content .d-flex.form-data {
+  .d-flex.main-content,
+  .d-flex.main-content .d-flex.form-data {
     flex-direction: column;
   }
 
@@ -179,5 +221,4 @@ export default {
     width: 100% !important;
   }
 }
-
 </style>

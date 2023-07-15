@@ -77,7 +77,7 @@ html {
     --error-900: #160102;
 
      /* Black Theme  */
-     --black-50: #E6E6E6;
+     --black-50: #eee8e8;
      --black-100: #CCCCCC;
      --black-200: #999999;
      --black-300: #666666;
@@ -116,5 +116,5 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 body {
-    background-color: var(--gray-100);
+    background-color: var(--gray-50);
 }

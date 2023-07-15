@@ -15,6 +15,9 @@ Vue.use(ElementUI);
 import { Icon } from '@iconify/vue2';
 Vue.component("i-icon", Icon);
 
+import VueGauge from 'vue-gauge';
+Vue.component('vue-gauge', VueGauge);
+
 new Vue({
   router,
   store,

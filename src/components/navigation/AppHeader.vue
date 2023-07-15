@@ -25,7 +25,7 @@
             </li>
             <li>
               <router-link to="/sign-up">
-                <button class="button primary-btn">Sign up</button>
+                <button class="button primary-btn">Join Community</button>
               </router-link>
             </li>
           </ul>
@@ -67,7 +67,7 @@
             </li>
             <li>
               <router-link to="/sign-up">
-                <button class="button primary-btn">Sign up</button>
+                <button class="button primary-btn">Join Community</button>
               </router-link>
             </li>
           </ul>
