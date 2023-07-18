@@ -1,5 +1,5 @@
 <template>
-  <div class="py-4" id="home">
+  <div class="py-4 px-3" id="home">
     <div class="container">
       <section>
         <div

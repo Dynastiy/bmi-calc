@@ -9,7 +9,7 @@
       </div>
 
       <div class="tags-list mt-3">
-        <span class="tag-header">My categories:</span>
+        <span class="tag-header">Categories:</span>
         <div class="list-categories">
           <span
             class="tag"

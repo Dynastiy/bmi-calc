@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="shadow-sm py-3 bg-white" id="app-header">
+    <div class="shadow-sm py-3 px-3 bg-white" id="app-header">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center">
           <span> bodyCalc </span>

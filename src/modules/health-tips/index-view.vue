@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="py-4" id="home">
+    <div class="py-4 px-3" id="home">
       <div class="container">
         <section>
           <div class="mb-4 header-area text-center">
