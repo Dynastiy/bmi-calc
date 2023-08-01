@@ -40,13 +40,14 @@ export default {
   display: inline-flex;
   display: inline-flex;
   gap: 6px;
-  align-items: center;
 }
 
 .list-categories {
   display: flex;
   display: inline-flex;
-  display: inline-flex;
+  display:-webkit-flex;
+  display: -ms-flexbox;
+  flex-wrap: wrap;
   gap: 6px;
   align-items: center;
 }

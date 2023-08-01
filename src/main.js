@@ -7,6 +7,9 @@ import '@/assets/css/main.css'
 
 Vue.config.productionTip = false
 
+import $request from "./axios";
+Vue.prototype.$request = $request 
+
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 

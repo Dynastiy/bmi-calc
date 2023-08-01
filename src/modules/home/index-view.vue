@@ -21,19 +21,29 @@
             <label for="">Age</label>
             <div class="d-flex" style="gap: 30px">
               <div class="w-100">
-                <el-slider v-model="age" :max="120" :min="2"></el-slider>
+                <el-slider
+                  v-model="dataObj.age"
+                  :max="120"
+                  :min="2"
+                ></el-slider>
               </div>
-              <input class="w-25" type="text" name="" v-model="age" id="" />
+              <input
+                class="w-25"
+                type="text"
+                name=""
+                v-model="dataObj.age"
+                id=""
+              />
             </div>
           </div>
           <div>
             <label for="">Gender</label>
-            <div class="d-flex" style="gap: 30px">
+            <div class="d-lg-flex" style="gap: 30px">
               <span
                 role="button"
                 @click="selectGender('male')"
                 class="gender"
-                :class="{ active: gender === 'male' }"
+                :class="{ active: dataObj.gender === 'male' }"
               >
                 <i-icon icon="map:male" />
                 Male
@@ -42,7 +52,7 @@
                 role="button"
                 @click="selectGender('female')"
                 class="gender"
-                :class="{ active: gender === 'female' }"
+                :class="{ active: dataObj.gender === 'female' }"
               >
                 <i-icon icon="map:female" />
                 Female
@@ -52,15 +62,17 @@
           <div class="d-flex form-data" style="gap: 30px">
             <div class="w-100">
               <label for="">Height</label>
-              <input type="text" name="" v-model="height" id="" />
+              <input type="text" name="" v-model="dataObj.height" id="" />
             </div>
             <div class="w-100">
               <label for="">Weight</label>
-              <input type="text" name="" v-model="weight" id="" />
+              <input type="text" name="" v-model="dataObj.weight" id="" />
             </div>
           </div>
           <div class="d-flex justify-content-center" style="gap: 20px">
-            <button class="success-btn button">Calculate</button>
+            <button class="success-btn button" @click="submit">
+              Calculate
+            </button>
             <button class="cancel-btn button">Clear</button>
           </div>
         </div>
@@ -69,17 +81,24 @@
           <vue-gauge
             :refid="'type-unique-id'"
             :options="{
-              needleValue: 25,
+              needleValue: result,
               arcDelimiters: [37, 50, 60, 70],
               // arcDelimiters: [32, 34, 37, 50, 60, 70, 80],
-              arcColors: ['#ffe400', '#008137', '#ffe400', '#d38888', '#bc2020', '#8a0101'],
-              arcLabels:['Underwieght', 'Normal', 'Overweight', 'Obesity'],
+              arcColors: [
+                '#ffe400',
+                '#008137',
+                '#ffe400',
+                '#d38888',
+                '#bc2020',
+                '#8a0101',
+              ],
+              arcLabels: ['Underwieght', 'Normal', 'Overweight', 'Obesity'],
               hasNeedle: true,
               chartWidth: 300,
               rangeLabel: ['0', '50'],
             }"
           ></vue-gauge>
-          <h3>BMI = 25%</h3>
+          <h3>BMI = {{ result + "%" }}</h3>
         </div>
       </section>
       <section class="mt-3">
@@ -119,15 +138,29 @@
 export default {
   data() {
     return {
-      age: 2,
-      gender: "male",
-      height: "",
-      weight: ""
+      dataObj: {
+        age: 2,
+        gender: "male",
+        height: "",
+        weight: "",
+      },
+      result: 0,
     };
   },
   methods: {
     selectGender(value) {
-      this.gender = value;
+      this.dataObj.gender = value;
+    },
+    submit() {
+      this.$request
+        .post("/calculate-bmi", this.dataObj)
+        .then((res) => {
+          console.log(res);
+          this.result = res.result;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
@@ -142,13 +175,13 @@ export default {
   border-radius: 5px;
   font-weight: 500;
   font-size: 18px;
+  margin-top: 12px;
 }
 
 #home .gender.active {
   /* color: #fff; */
   background: linear-gradient(90deg, var(--PRIMARY1) 10%, var(--PRIMARY2) 100%);
 }
-
 
 #home label {
   margin-bottom: 0;
