@@ -156,7 +156,7 @@ export default {
         .post("/calculate-bmi", this.dataObj)
         .then((res) => {
           console.log(res);
-          this.result = res.result;
+          this.result = res.data.result;
         })
         .catch((err) => {
           console.log(err);
