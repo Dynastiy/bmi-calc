@@ -17,6 +17,27 @@
       </section>
       <section class="d-flex main-content" style="gap: 30px">
         <div class="w-100 p-5 rounded-lg bg-white bmi-card form-field">
+          <section>
+            <div class="d-flex" style="gap: 10px">
+              <span
+                role="button"
+                @click="selectUnit('us')"
+                class="units"
+                :class="{ active: unit === 'us' }"
+              >
+                US Units
+              </span>
+              <span
+                role="button"
+                @click="selectUnit('metric')"
+                class="units"
+                :class="{ active: unit === 'metric' }"
+              >
+                Metric Units
+              </span>
+            </div>
+          </section>
+          <hr>
           <div>
             <label for="">Age</label>
             <div class="d-flex" style="gap: 30px">
@@ -61,12 +82,14 @@
           </div>
           <div class="d-flex form-data" style="gap: 30px">
             <div class="w-100">
-              <label for="">Height</label>
+              <label for="">Height(cm)</label>
+              <input type="text" class="mb-3" name="" v-model="dataObj.height" id="" />
               <input type="text" name="" v-model="dataObj.height" id="" />
             </div>
             <div class="w-100">
-              <label for="">Weight</label>
+              <label for="">Weight(kg)</label>
               <input type="text" name="" v-model="dataObj.weight" id="" />
+              <p>{{ 1500 | units('m', 'km', true) }}</p>
             </div>
           </div>
           <div class="d-flex justify-content-center" style="gap: 20px">
@@ -76,29 +99,14 @@
             <button class="cancel-btn button">Clear</button>
           </div>
         </div>
-        <div class="w-50 p-5 rounded-lg bg-white bmi-card">
+        <div class="w-50 p-2 rounded-lg bg-white bmi-card  text-center">
           <h3>Result</h3>
-          <vue-gauge
-            :refid="'type-unique-id'"
-            :options="{
-              needleValue: result,
-              arcDelimiters: [37, 50, 60, 70],
-              // arcDelimiters: [32, 34, 37, 50, 60, 70, 80],
-              arcColors: [
-                '#ffe400',
-                '#008137',
-                '#ffe400',
-                '#d38888',
-                '#bc2020',
-                '#8a0101',
-              ],
-              arcLabels: ['Underwieght', 'Normal', 'Overweight', 'Obesity'],
-              hasNeedle: true,
-              chartWidth: 300,
-              rangeLabel: ['0', '50'],
-            }"
-          ></vue-gauge>
-          <h3>BMI = {{ result + "%" }}</h3>
+          <guage-chart
+            :refid="gaugeId"
+            :options="gaugeOptions"
+            :result="result"
+          />
+          <h3>BMI = {{ result }}</h3>
         </div>
       </section>
       <section class="mt-3">
@@ -135,33 +143,94 @@
 </template>
 
 <script>
+import GuageChart from "@/components/GuageChart.vue";
 export default {
+  components: { GuageChart },
   data() {
     return {
+      unit: "metric",
       dataObj: {
         age: 2,
         gender: "male",
         height: "",
         weight: "",
       },
+      queryParams: {},
       result: 0,
+      gaugeId: "gaugeArea",
+      gaugeOptions: {
+        hasNeedle: true,
+        needleColor: "gray",
+        needleUpdateSpeed: 1000,
+        arcColors: [
+          "#ffe400",
+          "#008137",
+          "#ffe400",
+          "#d38888",
+          "#bc2020",
+          "#8a0101",
+        ],
+        arcLabels: ["Underwieght", "Normal", "Overweight", "Obesity"],
+        arcDelimiters: [37, 50, 60, 70],
+        rangeLabel: ["0", "100"],
+      },
     };
   },
   methods: {
+
     selectGender(value) {
       this.dataObj.gender = value;
     },
+
+    selectUnit(value) {
+      this.unit = value;
+    },
+
     submit() {
+      this.$router
+        .replace({
+          query: {
+            data: JSON.stringify(this.dataObj),
+          },
+        })
+        .catch(() => {});
       this.$request
-        .post("/calculate-bmi", this.dataObj)
+        .post("/calculate-bmi", this.queryParams)
         .then((res) => {
           console.log(res);
-          this.result = res.data.result;
+          this.result = res.result;
+          this.$router
+            .replace({
+              query: {
+                ...this.$route.query,
+                result: res.result,
+              },
+            })
+            .catch(() => {});
         })
         .catch((err) => {
           console.log(err);
         });
     },
+  },
+
+  watch: {
+    queryParams: {
+      handler(newVal) {
+        if (newVal) {
+          this.dataObj.age = newVal.age;
+          this.dataObj.gender = newVal.gender;
+          this.dataObj.height = newVal.height;
+          this.dataObj.weight = newVal.weight;
+          this.result = this.$route.query.result;
+        }
+      },
+      immediate: true,
+    },
+  },
+
+  mounted() {
+    this.queryParams = JSON.parse(this.$route.query.data);
   },
 };
 </script>
@@ -178,7 +247,18 @@ export default {
   margin-top: 12px;
 }
 
-#home .gender.active {
+#home .units {
+  background: var(--gray-200);
+  color: #fff;
+  padding: 6px 15px;
+  display: block;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 18px;
+  margin-top: 12px;
+}
+
+#home .gender.active, #home .units.active {
   /* color: #fff; */
   background: linear-gradient(90deg, var(--PRIMARY1) 10%, var(--PRIMARY2) 100%);
 }
@@ -224,7 +304,7 @@ export default {
 }
 
 #home .bmi-card {
-  text-align: center;
+  /* text-align: center; */
 }
 
 #home .bmi-card img {

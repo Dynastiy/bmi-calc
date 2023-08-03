@@ -21,6 +21,15 @@ Vue.component("i-icon", Icon);
 import VueGauge from 'vue-gauge';
 Vue.component('vue-gauge', VueGauge);
 
+import VueUnits from 'vue-units';
+
+Vue.use(VueUnits)
+
+Vue.filter('units', function (from, to, includeUnit) {
+  return (from, to, includeUnit)
+})
+
+
 new Vue({
   router,
   store,
